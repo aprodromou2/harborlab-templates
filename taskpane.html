@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HarborLab Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy2: #162233;
+  --navy3: #1e2f42;
+  --blue: #2176ae;
+  --blue-light: #3a8fd1;
+  --cyan: #57c4e5;
+  --text: #e8edf2;
+  --text2: #8fa3b8;
+  --border: rgba(255,255,255,0.08);
+  --radius: 6px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  font-size: 13px;
+  min-height: 100vh;
+}
+.header {
+  background: var(--navy2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: #fff; flex-shrink: 0;
+}
+.header-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.header-sub { font-size: 11px; color: var(--text2); }
+
+.section { padding: 12px 14px; }
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--text2);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Template grid */
+.tpl-top { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 6px; }
+.tpl-bottom { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.tpl-btn {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, background .15s;
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.tpl-btn:hover { border-color: var(--blue); background: var(--navy3); }
+.tpl-btn.active { border-color: var(--cyan); background: var(--navy3); }
+.tpl-btn .tname {
+  font-size: 11px; font-weight: 600;
+  display: block; color: var(--text);
+  line-height: 1.3;
+}
+.tpl-btn.active .tname { color: var(--cyan); }
+
+/* Common fields */
+.common-fields {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.field-row { margin-bottom: 8px; }
+.field-row:last-child { margin-bottom: 0; }
+.field-row label {
+  display: block;
+  font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--text2);
+  margin-bottom: 4px;
+  letter-spacing: .04em;
+}
+.field-row input, .field-row textarea {
+  width: 100%;
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  outline: none;
+  transition: border-color .15s;
+  resize: vertical;
+}
+.field-row input:focus, .field-row textarea:focus { border-color: var(--blue); }
+.field-row input::placeholder, .field-row textarea::placeholder { color: var(--text2); opacity: .6; }
+
+/* Dynamic fields area */
+.dyn-fields {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 10px 12px;
+}
+.common-fields { border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid var(--border); }
+
+/* Subject preview */
+.subject-preview {
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+.subject-preview .slabel {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; color: var(--text2);
+  margin-bottom: 3px;
+  display: block;
+}
+.subject-preview .sval {
+  font-size: 12px; color: var(--cyan);
+  font-weight: 500; word-break: break-all;
+  min-height: 16px;
+}
+
+/* Body preview */
+.body-box {
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  min-height: 80px;
+}
+
+/* Action buttons */
+.action-row { display: flex; gap: 6px; }
+.btn {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px; font-weight: 600;
+  transition: opacity .15s, transform .1s;
+}
+.btn:active { transform: scale(.98); }
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--blue-light); }
+.btn-secondary {
+  background: var(--navy3);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { color: var(--text); border-color: var(--blue); }
+.btn-insert {
+  background: linear-gradient(135deg, #0d7a4e, #0fa868);
+  color: #fff;
+}
+.btn-insert:hover { opacity: .9; }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+.gap { height: 10px; }
+.gap-sm { height: 6px; }
+
+.no-tpl {
+  color: var(--text2);
+  font-size: 12px;
+  text-align: center;
+  padding: 18px 0;
+}
+
+.toast {
+  position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+  background: #0fa868; color: #fff;
+  padding: 7px 16px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  opacity: 0; transition: opacity .3s;
+  pointer-events: none; z-index: 99;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">HL</div>
+  <div>
+    <div class="header-title">HarborLab Templates</div>
+    <div class="header-sub">Anastasia · Operations</div>
+  </div>
+</div>
+
+<!-- Template selector -->
+<div class="section">
+  <div class="section-label">Select template</div>
+  <div class="tpl-top">
+    <button class="tpl-btn" data-key="remittance" onclick="selectTpl(this)"><span class="tname">Remittance missing</span></button>
+    <button class="tpl-btn" data-key="bank_mismatch" onclick="selectTpl(this)"><span class="tname">Bank mismatch</span></button>
+    <button class="tpl-btn" data-key="wrong_invoice" onclick="selectTpl(this)"><span class="tname">Wrong invoice</span></button>
+  </div>
+  <div class="tpl-bottom">
+    <button class="tpl-btn" data-key="ctm" onclick="selectTpl(this)"><span class="tname">CTM category</span></button>
+    <button class="tpl-btn" data-key="payment" onclick="selectTpl(this)"><span class="tname">Payment / RIC</span></button>
+    <button class="tpl-btn" data-key="bank_charges" onclick="selectTpl(this)"><span class="tname">Bank charges</span></button>
+    <button class="tpl-btn" data-key="missing_docs" onclick="selectTpl(this)"><span class="tname">Missing docs</span></button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Common fields (always shown) -->
+<div class="section" id="commonSection" style="padding-bottom:0;">
+  <div class="section-label">Case details</div>
+  <div class="common-fields">
+    <div class="field-row">
+      <label>VESSEL NAME, VOY & PORT</label>
+      <input type="text" id="vessel" placeholder="e.g. LNGSHIPS EMPRESS V.44B at Point Fortin, Trinidad and Tobago" oninput="updateSubject()">
+    </div>
+    <div class="field-row">
+      <label>FORM ID</label>
+      <input type="text" id="form_id" placeholder="e.g. 132877" oninput="updateSubject()">
+    </div>
+    <div class="field-row">
+      <label>APPT ID <span style="color:var(--text2);font-size:10px;">(optional)</span></label>
+      <input type="text" id="appt_id" placeholder="e.g. DA-135102" oninput="updateSubject()">
+    </div>
+  </div>
+  <!-- Dynamic fields injected here -->
+  <div class="dyn-fields" id="dynFields" style="display:none;"></div>
+</div>
+
+<div class="gap-sm"></div>
+
+<!-- Subject preview -->
+<div class="section" style="padding-top:0; padding-bottom:0;">
+  <div class="subject-preview">
+    <span class="slabel">SUBJECT LINE</span>
+    <div class="sval" id="subjectPreview">Fill in Form ID and vessel above</div>
+  </div>
+</div>
+
+<div class="gap-sm"></div>
+
+<!-- Body preview -->
+<div class="section" style="padding-top:0; padding-bottom:0;" id="bodySection" style="display:none;">
+  <div class="section-label">EMAIL BODY</div>
+  <div class="body-box" id="bodyBox"><span style="color:var(--text2);">Select a template and fill in the fields above.</span></div>
+</div>
+
+<div class="gap"></div>
+
+<!-- Actions -->
+<div class="section">
+  <div class="action-row">
+    <button class="btn btn-secondary" onclick="previewEmail()">Preview</button>
+    <button class="btn btn-insert" onclick="insertEmail()">Insert into email</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Inserted into email</div>
+
+<script>
+Office.onReady(() => {});
+
+const TEMPLATES = {
+  remittance: {
+    fields: [
+      { id: 'port', label: 'PORT', ph: 'e.g. Point Fortin' },
+      { id: 'eta', label: 'ETA', ph: 'e.g. 25 May 2026' },
+      { id: 'prefunding', label: 'PREFUNDING AMOUNT', ph: 'e.g. USD 12,500.00' },
+    ],
+    body: (v) => {
+      const ref = buildRef(v);
+      return `Dear Agents,\n\nGood day!\n\nRegarding ${ref} - as per our records there has been a prefunding of ${v.prefunding || '[prefunding]'}.\n\nPlease provide us with a revised FDA cover indicating the total amount, remittance received, & correct balance.\n\nLooking forward to your understanding and a prompt adjustment of the charges.`;
+    }
+  },
+  bank_mismatch: {
+    fields: [
+      { id: 'platform_bank', label: 'BANK ON PLATFORM', ph: 'e.g. HSBC - USD account' },
+      { id: 'fda_bank', label: 'BANK ON FDA ATTACHMENT', ph: 'e.g. Citibank - USD account' },
+    ],
+    body: (v) => {
+      const ref = buildRef(v);
+      return `Dear Agents,\n\nGood day!\n\nRegarding ${ref}, we noticed that the bank details submitted on our platform [${v.platform_bank || '[platform bank]'}] do not match the bank details on the FDA attachment [${v.fda_bank || '[FDA bank]'}].\n\nPlease be so kind as to re-submit FDA on our platform under the same Appt ID and choose the correct bank details.`;
+    }
+  },
+  wrong_invoice: {
+    fields: [
+      { id: 'correct_details', label: 'CORRECT INVOICE DETAILS', ph: 'e.g. Correct amount: USD 1,250.00 — Category: Port Expenses', textarea: true },
+    ],
+    body: (v) => {
+      const ref = buildRef(v);
+      return `Dear Agents,\n\nGood day!\n\nRegarding ${v.vessel || '[vessel]'} [${ref}], kindly issue revised FDA under the following correct invoice details:\n\n${v.correct_details || '[correct details]'}`;
+    }
+  },
+  ctm: {
+    fields: [],
+    body: (v) => {
+      const appt = v.appt_id ? `Appt ID: ${v.appt_id}` : (v.form_id ? `Form ID: ${v.form_id}` : '[ID]');
+      return `Dear Agents,\n\nGood day!\n\nPlease re-submit the attached invoices as two sup FDAs under the same Appt ID [${appt}], and kindly ensure to choose the correct expense category (C. Husbandry Expenses (CTM)).`;
+    }
+  },
+  payment: {
+    fields: [],
+    body: (v) => {
+      const form = v.form_id ? `Form ID: ${v.form_id}` : '[Form ID]';
+      return `Dear Agents,\n\nGood day!\n\nKindly note that the FDA [${form}] has been approved by both HL & Principal's side.\n\nFor payment matters please liaise directly with Owners (RIC).`;
+    }
+  },
+  bank_charges: {
+    fields: [
+      { id: 'bank_charge', label: 'BANK CHARGE AMOUNT', ph: 'e.g. USD 35.00' },
+      { id: 'total', label: 'TOTAL AMOUNT', ph: 'e.g. USD 15,400.00' },
+      { id: 'remitted', label: 'REMITTED AMOUNT', ph: 'e.g. USD 15,000.00' },
+      { id: 'balance', label: 'TOTAL BALANCE', ph: 'e.g. USD 400.00' },
+    ],
+    body: (v) => {
+      const appt = v.appt_id ? `Appt ID: ${v.appt_id}` : (v.form_id ? `Form ID: ${v.form_id}` : '[ID]');
+      return `Dear Agents,\n\nThank you for the revised FDA.\n\nPlease be so kind as to re-submit the FDA under the same Appt ID [${appt}] and include the bank charges of ${v.bank_charge || '[amount]'} in a separate line item, for example under "PDA Remittance bank charges".\n\nAlso, please revise the attachment to include the following:\n\nTotal amount        ${v.total || '[total]'}\nRemitted amount  ${v.remitted || '[remitted]'}\nTotal balance        ${v.balance || '[balance]'}\n\nOur Operations Team RIC can further assist you.`;
+    }
+  },
+  missing_docs: {
+    fields: [
+      { id: 'missing_items', label: 'MISSING ITEMS', ph: 'e.g. Original invoice, disbursement voucher', textarea: true },
+      { id: 'deadline', label: 'DEADLINE (optional)', ph: 'e.g. by end of day 23 May' },
+    ],
+    body: (v) => {
+      const ref = buildRef(v);
+      const deadline = v.deadline ? ` by ${v.deadline}` : ' as soon as possible';
+      return `Dear Agents,\n\nGood day!\n\nRegarding ${ref}, the FDA is currently on hold pending the following missing documents:\n\n${v.missing_items || '[missing items]'}\n\nKindly provide the above${deadline} in order for us to proceed.`;
+    }
+  }
+};
+
+let currentKey = null;
+
+function buildRef(v) {
+  const parts = [];
+  if (v.form_id) parts.push(`Form ID: ${v.form_id}`);
+  if (v.appt_id) parts.push(`Appt ID: ${v.appt_id}`);
+  const id = parts.length ? `[${parts.join(' / ')}]` : '';
+  const vessel = v.vessel ? v.vessel : '';
+  if (vessel && id) return `${vessel} ${id}`;
+  if (vessel) return vessel;
+  if (id) return id;
+  return '[case reference]';
+}
+
+function getVals() {
+  const v = {
+    vessel: document.getElementById('vessel').value.trim(),
+    form_id: document.getElementById('form_id').value.trim(),
+    appt_id: document.getElementById('appt_id').value.trim(),
+  };
+  if (currentKey && TEMPLATES[currentKey]) {
+    TEMPLATES[currentKey].fields.forEach(f => {
+      const el = document.getElementById('df_' + f.id);
+      if (el) v[f.id] = el.value.trim();
+    });
+  }
+  return v;
+}
+
+function buildSubject(v) {
+  const parts = [];
+  if (v.form_id) parts.push(`Form ID: ${v.form_id}`);
+  if (v.appt_id) parts.push(`Appt ID: ${v.appt_id}`);
+  const id = parts.join(' / ');
+  const vessel = v.vessel;
+  if (id && vessel) return `${id} - ${vessel}`;
+  if (id) return id;
+  if (vessel) return vessel;
+  return '';
+}
+
+function updateSubject() {
+  const v = getVals();
+  const subj = buildSubject(v);
+  document.getElementById('subjectPreview').textContent = subj || 'Fill in Form ID and vessel above';
+  if (currentKey) updateBody();
+}
+
+function updateBody() {
+  if (!currentKey) return;
+  const v = getVals();
+  const body = TEMPLATES[currentKey].body(v);
+  document.getElementById('bodyBox').textContent = body;
+}
+
+function selectTpl(btn) {
+  document.querySelectorAll('.tpl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentKey = btn.dataset.key;
+
+  const tpl = TEMPLATES[currentKey];
+  const dynFields = document.getElementById('dynFields');
+
+  if (tpl.fields.length === 0) {
+    dynFields.style.display = 'none';
+    dynFields.innerHTML = '';
+  } else {
+    dynFields.style.display = 'block';
+    dynFields.innerHTML = tpl.fields.map(f => `
+      <div class="field-row">
+        <label>${f.label}</label>
+        ${f.textarea
+          ? `<textarea id="df_${f.id}" rows="3" placeholder="${f.ph}" oninput="updateBody()"></textarea>`
+          : `<input type="text" id="df_${f.id}" placeholder="${f.ph}" oninput="updateBody()">`
+        }
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('bodySection').style.display = 'block';
+  updateBody();
+  updateSubject();
+}
+
+function previewEmail() {
+  updateBody();
+  updateSubject();
+}
+
+function insertEmail() {
+  if (!currentKey) {
+    showToast('Please select a template first', '#e05c2a');
+    return;
+  }
+  const v = getVals();
+  const subject = buildSubject(v);
+  const body = TEMPLATES[currentKey].body(v);
+
+  Office.context.mailbox.item.body.setAsync(
+    body,
+    { coercionType: Office.CoercionType.Text },
+    (result) => {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        if (subject) {
+          Office.context.mailbox.item.subject.setAsync(subject, () => {});
+        }
+        showToast('✓ Inserted into email');
+      } else {
+        showToast('Error inserting. Try again.', '#e05c2a');
+      }
+    }
+  );
+}
+
+function showToast(msg, color) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color || '#0fa868';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
